@@ -10,6 +10,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import dk.offlines.managedata.R
 import dk.offlines.managedata.data.Monster
+import dk.offlines.managedata.utilities.PrefsHelper
 
 
 class MainRecyclerAdapter(val context: Context, val monsters: List<Monster>, val itemListener: MonsterItemListener): RecyclerView.Adapter<MainRecyclerAdapter.ViewHolder>() {
@@ -24,7 +25,14 @@ class MainRecyclerAdapter(val context: Context, val monsters: List<Monster>, val
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val view = inflater.inflate(R.layout.monster_grid_item, parent, false)
+        val layoutStyle = PrefsHelper.getItemType(parent.context)
+        val layoutId = if(layoutStyle == "grid") {
+            R.layout.monster_grid_item
+        } else {
+            R.layout.monster_list_item
+        }
+
+        val view = inflater.inflate(layoutId, parent, false)
         return ViewHolder(view)
     }
 
